@@ -1,0 +1,16 @@
+{
+  "name": "dependabot-auto-merge",
+  "version": "1.0.0",
+  "description": "GitHub Action to automatically approve and merge Dependabot PRs based on configurable rules",
+  "main": "check-auto-merge.js",
+  "scripts": {
+    "test": "node --test",
+    "bump:patch": "npm version patch -m \"chore(release): %s\"",
+    "bump:minor": "npm version minor -m \"chore(release): %s\"",
+    "bump:major": "npm version major -m \"chore(release): %s\"",
+    "tag:create": "git tag -a v$(cat package.json | jq -r .version) -m \"Release version v$(cat package.json | jq -r .version)\" -e",
+    "tag:push": "git push origin main --tags"
+  },
+  "license": "MIT",
+  "private": true
+}
