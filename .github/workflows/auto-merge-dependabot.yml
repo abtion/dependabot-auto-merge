@@ -21,4 +21,4 @@ jobs:
             [
               { "update-type": "semver-minor" }
             ]
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.AUTO_MERGE_TOKEN }}
