@@ -31,7 +31,7 @@ runs:
         UPDATE_TYPE: ${{ steps.meta.outputs.update-type }}
       with:
         script: |
-          const { checkAutoMerge } = require('./check-auto-merge');
+          const { checkAutoMerge } = require('${{ github.action_path }}/check-auto-merge');
           const result = checkAutoMerge({
             config: JSON.parse(process.env.AUTO_MERGE_CONFIG),
             dependencyNames: process.env.DEP_NAMES.split(/,\s*/),
