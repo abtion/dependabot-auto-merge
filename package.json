@@ -1,6 +1,6 @@
 {
   "name": "dependabot-auto-merge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "GitHub Action to automatically approve and merge Dependabot PRs based on configurable rules",
   "main": "check-auto-merge.js",
   "scripts": {
