@@ -1,4 +1,4 @@
-name: auto-merge
+name: Dependabot Auto-Merge
 
 on:
   pull_request_target:
@@ -12,13 +12,10 @@ jobs:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - uses: abtion/dependabot-auto-merge@v1.0.0
+      - uses: abtion/dependabot-auto-merge@v1.0.1
         with:
           config: >-
             [
-              { "update-type": "semver-minor" }
+              { "update-type": "semver-minor" },
             ]
-          github-token: ${{ secrets.AUTO_MERGE_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -32,8 +32,12 @@ runs:
       with:
         script: |
           const { checkAutoMerge } = require('${{ github.action_path }}/check-auto-merge');
+
+          // Strip trailing commas
+          const configJson = process.env.AUTO_MERGE_CONFIG.replace(/,\s*([}\]])/g, '$1');
+
           const result = checkAutoMerge({
-            config: JSON.parse(process.env.AUTO_MERGE_CONFIG),
+            config: JSON.parse(configJson),
             dependencyNames: process.env.DEP_NAMES.split(/,\s*/),
             packageEcosystem: process.env.PACKAGE_ECOSYSTEM,
             updateType: process.env.UPDATE_TYPE,

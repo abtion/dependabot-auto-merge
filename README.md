@@ -7,33 +7,40 @@ A GitHub Action that automatically approves and merges Dependabot PRs based on c
 ```yaml
 name: Dependabot Auto-Merge
 
-on: pull_request_target
+on:
+  pull_request_target:
+
+permissions:
+  pull-requests: write
+  contents: write
 
 jobs:
-  auto-merge:
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
+  dependabot:
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-22.04
     steps:
-      - uses: your-org/dependabot-auto-merge@v1
+      - uses: abtion/dependabot-auto-merge@v1.0.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          config: |
+          config: >-
             [
               { "update-type": "semver-minor" },
-              { "dependency-name": "aws-sdk", "update-type": "semver-patch" }
             ]
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ## Inputs
 
 | Input | Required | Default | Description |
 |-------|----------|---------|-------------|
-| `config` | Yes | | JSON array of merge rules |
+| `config` | Yes | | JSON* array of merge rules |
 | `github-token` | Yes | | GitHub token with pull-request write permissions |
 | `merge-method` | No | `squash` | Merge method: `squash`, `merge`, or `rebase` |
+
+### * With basic support for trailing commas
+
+The action has a simple regex in place to remove trailing commas from the configuration.
+
+It's recommended to use trailing commas for rule lines as it prevents potential syntax errors.
 
 ## Config rules
 
@@ -50,7 +57,9 @@ Rules are evaluated in order. Later rules override earlier ones for the same dep
 Allow all patch and minor updates:
 
 ```json
-[{ "update-type": "semver-minor" }]
+[
+  { "update-type": "semver-minor" },
+]
 ```
 
 Allow minor updates for everything, but only patches for a specific dependency:
@@ -58,14 +67,16 @@ Allow minor updates for everything, but only patches for a specific dependency:
 ```json
 [
   { "update-type": "semver-minor" },
-  { "dependency-name": "rails", "update-type": "semver-patch" }
+  { "dependency-name": "rails", "update-type": "semver-patch" },
 ]
 ```
 
 Only auto-merge npm dependencies:
 
 ```json
-[{ "package-ecosystem": "npm", "update-type": "semver-minor" }]
+[
+  { "package-ecosystem": "npm", "update-type": "semver-minor" },
+]
 ```
 
 ## How it works
