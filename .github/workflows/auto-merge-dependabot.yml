@@ -12,7 +12,7 @@ jobs:
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     runs-on: ubuntu-22.04
     steps:
-      - uses: abtion/dependabot-auto-merge@v1.0.1
+      - uses: abtion/dependabot-auto-merge@v1.1.0
         with:
           config: >-
             [
